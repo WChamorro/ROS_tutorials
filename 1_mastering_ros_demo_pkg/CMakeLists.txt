@@ -25,3 +25,8 @@ include_directories(
 add_executable(demo_publisher src/demo_std_msg_publisher.cpp)
 add_dependencies(demo_publisher ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(demo_publisher ${catkin_LIBRARIES})
+
+#Topic publisher
+add_executable(demo_subscriber src/demo_std_msg_subscriber.cpp)
+add_dependencies(demo_subscriber ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
+target_link_libraries(demo_subscriber ${catkin_LIBRARIES})
