@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+
+
+<launch>
+
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+  <!-- We resume the logic in empty_world.launch -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gazebo_control_tutorial)/urdf/aruco_seven_dof_arm_with_rgbd.xacro'" /> 
+
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -model seven_dof_arm -param robot_description -z 0.1"/>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find gazebo_control_tutorial)/config/seven_dof_arm_gazebo_joint_position_full.yaml" command="load"/>
+  <!-- specifying PID controller gains: needed when using PositionJointInterface http://answers.gazebosim.org/question/5468/gazebo_ros_pkgs-no-p-gain-specified-for-pid-in-positionjointinterface/ -->
+  <rosparam file="$(find gazebo_control_tutorial)/config/gazebo_ros_control_params.yaml" command="load"/>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find seven_dof_arm_gazebo)/config/seven_dof_arm_gazebo_joint_states.yaml" command="load"/>
+
+  <!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="/seven_dof_arm" args="joint_state_controller
+                                                  joint1_position_controller
+					  	  joint2_position_controller
+					          joint3_position_controller
+					          joint4_position_controller
+					          joint5_position_controller
+					          joint6_position_controller
+					          joint7_position_controller
+					          joint8_position_controller
+					          joint9_position_controller"/>
+  
+
+
+  <!-- <node name="joint_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  output="screen" ns="/seven_dof_arm" args="joint_state_controller" />-->
+
+  
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+	respawn="false" output="screen">
+        <remap from="/joint_states" to="/seven_dof_arm/joint_states" />
+  </node>
+  
+</launch>

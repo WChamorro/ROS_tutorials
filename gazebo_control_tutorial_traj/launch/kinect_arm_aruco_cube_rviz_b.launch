@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="world_frame_broadcaster" args="0.0 0.0 0.0  0.0 0.0 0.0 map world" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_frame_broadcaster" args="0.0 0.0 0.0  0.0 0.0 0.0 map base_link" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera1_broadcaster" args="0.15 0.0 0.8 -0.701055602194 0.701051326543 -0.0923094879174 0.0923419656755 /map /rgbd_camera_optical_frame" />
+
+  <arg name="rviz"  default="true"/>
+  <!-- marker detector -->
+  <!-- aruco_ros node is used to detect markers -->
+  <!-- ros wiki page: http://wiki.ros.org/aruco_ros -->
+  <!-- external page: http://www.uco.es/investiga/grupos/ava/node/26 -->
+  <arg name="markerId"        default="582"/> <!-- This is the marker ID of the aruco_cube model that appears in the camera_aruco_cube.world -->
+  <arg name="markerSize"      default="0.045"/>    <!-- in m -->
+  <arg name="eye"             default="left"/>
+  <arg name="marker_frame"    default="aruco_marker_frame"/>
+  <arg name="ref_frame"       default=""/>  <!-- leave empty and the pose will be published wrt param parent_name -->
+  <arg name="corner_refinement" default="LINES" /> <!-- NONE, HARRIS, LINES, SUBPIX -->
+
+  <node pkg="aruco_ros" type="single" name="aruco_single">
+    <remap from="/camera_info" to="/rgbd_camera/rgb/camera_info" />
+    <remap from="/image" to="/rgbd_camera/rgb/image_rect_color" />
+    <param name="image_is_rectified" value="True"/>
+    <param name="marker_size"        value="$(arg markerSize)"/>
+    <param name="marker_id"          value="$(arg markerId)"/>
+    <param name="reference_frame"    value="$(arg ref_frame)"/>   <!-- frame in which the marker pose will be refered -->
+    <param name="camera_frame"       value="/rgbd_camera_optical_frame"/>
+    <param name="marker_frame"       value="$(arg marker_frame)" />
+    <param name="corner_refinement"  value="$(arg corner_refinement)" />
+  </node>
+
+  <!-- image_proc node sits between the camera driver and vision processing nodes. -->
+  <!-- image_proc removes camera distortion from the raw image stream -->
+  <!-- requires to set the ROS_NAMESPACE to the camera publishing the images, /rgbd_camera/rgb in our case -->
+  <!-- See http://wiki.ros.org/image_proc for more info -->
+  <env name="ROS_NAMESPACE" value="/rgbd_camera/rgb" />
+  <node name="image_proc" pkg="image_proc" type="image_proc" />
+
+  <!-- Show in Rviz   -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find gazebo_control_tutorial)/launch/kinect_arm_aruco_cube_b.rviz"/>
+
+
+</launch>

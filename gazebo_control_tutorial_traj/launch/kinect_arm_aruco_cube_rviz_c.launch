@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="world_frame_broadcaster" args="0.0 0.0 0.0  0.0 0.0 0.0 map world" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_frame_broadcaster" args="0.0 0.0 0.0  0.0 0.0 0.0 map base_link" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera1_broadcaster" args="0.15 0.0 0.8 -0.701055602194 0.701051326543 -0.0923094879174 0.0923419656755 /map /rgbd_camera_optical_frame" />
+
+  <arg name="rviz"  default="true"/>
+
+
+  <!-- image_proc node sits between the camera driver and vision processing nodes. -->
+  <!-- image_proc removes camera distortion from the raw image stream -->
+  <!-- requires to set the ROS_NAMESPACE to the camera publishing the images, /rgbd_camera/rgb in our case -->
+  <!-- See http://wiki.ros.org/image_proc for more info -->
+  <env name="ROS_NAMESPACE" value="/rgbd_camera/rgb" />
+  <node name="image_proc" pkg="image_proc" type="image_proc" />
+
+  <!-- Show in Rviz   -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find gazebo_control_tutorial)/launch/kinect_arm_aruco_cube_c.rviz"/>
+
+
+</launch>

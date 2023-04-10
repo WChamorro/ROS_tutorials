@@ -1,0 +1,14 @@
+<launch>
+  <arg name="cmd_vel" default="/cmd_vel"/>
+  <arg name="name" default="turtlebot3"/>
+
+  <param name="cmd_vel_topic_name" value="$(arg cmd_vel)"/>
+  <param name="x_setpoint" value="2"/>
+  <param name="y_setpoint" value="2"/>
+
+
+  <param name="kv" value="0.2"/>
+  <param name="kw" value="0.6"/>
+
+  <node name="$(arg name)_drive" pkg="turtlebot3_gazebo" type="turtlebot3_pos_control" required="true" output="screen"/>
+</launch>

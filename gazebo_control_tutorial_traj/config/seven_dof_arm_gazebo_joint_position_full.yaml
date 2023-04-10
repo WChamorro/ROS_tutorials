@@ -1,0 +1,46 @@
+seven_dof_arm:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+  # Position Controllers ---------------------------------------
+  joint1_position_controller:
+    type: position_controllers/JointPositionController
+    joint: shoulder_pan_joint
+  joint2_position_controller:
+    type: position_controllers/JointPositionController
+    joint: shoulder_pitch_joint
+  joint3_position_controller:
+    type: position_controllers/JointPositionController
+    joint: elbow_roll_joint
+  joint4_position_controller:
+    type: position_controllers/JointPositionController
+    joint: elbow_pitch_joint
+  joint5_position_controller:
+    type: position_controllers/JointPositionController
+    joint: wrist_roll_joint
+  joint6_position_controller:
+    type: position_controllers/JointPositionController
+    joint: wrist_pitch_joint
+  joint7_position_controller:
+    type: position_controllers/JointPositionController
+    joint: gripper_roll_joint
+  joint8_position_controller:
+    type: position_controllers/JointPositionController
+    joint: finger_joint1
+  joint9_position_controller:
+    type: position_controllers/JointPositionController
+    joint: finger_joint2
+
+   
+# Trajectory Controller ---------------------------------------
+  arm_joint_trajectory_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - shoulder_pan_joint
+      - shoulder_pitch_joint
+      - elbow_roll_joint
+      - elbow_pitch_joint
+      - wrist_roll_joint
+      - wrist_pitch_joint
+      - gripper_roll_joint
