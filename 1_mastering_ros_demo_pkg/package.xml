@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mastering_ros_demo_std_msg</name>
+  <version>0.0.3</version>
+  <description>The mastering_ros_demo_pkg package</description>
+
+  <maintainer email="wchamorro@iri.upc.edu">robot</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend> 
+  <depend>std_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+
+</package>

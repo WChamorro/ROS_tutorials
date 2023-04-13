@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="publisher_node_name" pkg="mastering_ros_demo_std_msg" type="demo_publisher" output="screen"/>
+  <node name="subscriber_node_name" pkg="mastering_ros_demo_std_msg" type="demo_subscriber" output="screen"/>
+</launch>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <param name = "count_limit"     value = "15"/> <!-- Global parameter; all nodes can read-->
+  <node name="publisher_node" pkg="mastering_ros_demo_custom_msg" type="demo_custom_publisher_param" output="screen"/>
+  <node name="subscriber_node" pkg="mastering_ros_demo_custom_msg" type="demo_custom_subscriber" output="screen"/>
+</launch>
