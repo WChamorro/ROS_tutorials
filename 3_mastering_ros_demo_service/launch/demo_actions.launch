@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <arg 
+    name="max_count"
+    default="9"
+  />
+  <arg 
+    name="timeout"
+    default="10"
+  />
+  <!--be careful not to override the name, i.e. use demo_action as set in the .cpp file, since if not it won't work -->
+  <node name="demo_action" pkg="mastering_ros_demo_pkg" type="demo_action_server"/>
+  <node name="demo_action_client" pkg="mastering_ros_demo_pkg" type="demo_action_client" output="screen" args="$(arg max_count) $(arg timeout)"/>
+</launch>
