@@ -1,5 +1,6 @@
 /*
  * This code will publish a integers from 0 to n with a delay of 100ms
+ * Version 1.0
  */
 
 #include "ros/ros.h"
