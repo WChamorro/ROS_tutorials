@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <node name="server_node" pkg="mastering_ros_demo_pkg" type="demo_service_server" output="screen"/>
-  <node name="client_node" pkg="mastering_ros_demo_pkg" type="demo_service_client" output="screen"/>
+  <param name = "num_1"     value = "2"/>
+  <param name = "num_2"     value = "3"/>
+  <node name="server_node" pkg="mastering_ros_demo_services" type="demo_service_server" output="screen"/>
+  <node name="client_node" pkg="mastering_ros_demo_services" type="demo_service_client" output="screen"/>
 </launch>
