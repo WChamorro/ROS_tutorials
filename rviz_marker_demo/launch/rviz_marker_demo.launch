@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch> 
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="world_broadcaster" args="1 0 0 0 0 0 1 world assembly_frame" /> -
+
+  <node name="rviz_tutorial" pkg="rviz_marker_demo" type="rviz_node" output="screen"/>
+  <!-- Launch visualization in rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rviz_marker_demo)/rviz_marker_demo.rviz" required="true" />
+
+</launch>
+
