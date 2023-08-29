@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch> 
+  <param name="robot_description" textfile="$(find mastering_robot_description)/urdf/pan_tilt.urdf" />
+
+  <node
+    pkg="action_lib_tutorial"
+    type="pantilt_action_server"
+    name="pantilt_action_server"
+    output = "screen"
+  />
+  
+  <!-- Starting robot state publish which will publish tf -->
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="robot_state_publisher"
+  />
+  
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+  <!-- Launch visualization in rviz -->
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find action_lib_tutorial)/pantilt.rviz"
+    required="true"
+  />
+</launch>
+
+
+

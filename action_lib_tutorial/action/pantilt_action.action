@@ -1,0 +1,9 @@
+#goal definition
+float32 count
+string name
+---
+#result definition
+float32 final_count
+---
+#feedback
+float32 current_number
