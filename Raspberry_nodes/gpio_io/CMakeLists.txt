@@ -9,12 +9,15 @@ project(gpio_io)
 ## is used, also find other catkin packages
 
 
-    set(CMAKE_PREFIX_PATH /usr/local/lib/)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
 )
+
+
+
+find_library(wiringpi_libraries names wiringpi)
 
 
 
@@ -123,6 +126,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${WIRINGPI_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -156,7 +160,8 @@ include_directories(
 # )
 
 add_executable(gpio_pub src/gpio_pub.cpp)
-target_link_libraries(gpio_pub ${catkin_LIBRARIES} -lwiringPi)
+target_link_libraries(gpio_pub ${catkin_LIBRARIES} -lwiringPi
+)
 
 #############
 ## Install ##
