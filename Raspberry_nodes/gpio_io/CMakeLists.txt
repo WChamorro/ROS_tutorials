@@ -172,7 +172,7 @@ target_link_libraries(gpio_write ${catkin_LIBRARIES} -lwiringPi
 )
 
 add_executable(gpio_pwm src/gpio_pwm.cpp)
-target_link_libraries(gpio_pwm ${catkin_LIBRARIES} -lwiringPi -lpthread	
+target_link_libraries(gpio_pwm ${catkin_LIBRARIES} -lwiringPi 	
 )
 
 #############
