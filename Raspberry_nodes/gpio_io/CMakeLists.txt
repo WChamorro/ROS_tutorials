@@ -13,6 +13,7 @@ project(gpio_io)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  std_msgs
 )
 
 
@@ -111,10 +112,7 @@ find_library(wiringpi_libraries names wiringpi)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES gpio_io
-#  CATKIN_DEPENDS roscpp rospy
-#  DEPENDS system_lib
+ CATKIN_DEPENDS roscpp rospy std_msgs
 )
 
 ###########
@@ -126,8 +124,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
-${WIRINGPI_INCLUDE_DIRS}
-  
+  ${WIRINGPI_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -160,8 +157,18 @@ ${WIRINGPI_INCLUDE_DIRS}
 #   ${catkin_LIBRARIES}
 # )
 
+
+
+add_executable(gpio_read src/gpio_read.cpp)
+target_link_libraries(gpio_read ${catkin_LIBRARIES} -lwiringPi
+)
+
 add_executable(gpio_pub src/gpio_pub.cpp)
 target_link_libraries(gpio_pub ${catkin_LIBRARIES} -lwiringPi
+)
+
+add_executable(gpio_write src/gpio_write.cpp)
+target_link_libraries(gpio_write ${catkin_LIBRARIES} -lwiringPi
 )
 
 #############
