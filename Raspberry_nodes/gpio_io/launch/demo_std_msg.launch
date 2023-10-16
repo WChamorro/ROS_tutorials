@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <node name="publisher_node_name" pkg="gpio_io" type="gpio_pub" output="screen" />
-
-</launch>

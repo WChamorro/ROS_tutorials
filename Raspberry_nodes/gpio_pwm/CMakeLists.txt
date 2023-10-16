@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(gpio_io)
+project(gpio_pwm)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -159,21 +159,11 @@ include_directories(
 
 
 
-add_executable(gpio_read src/gpio_read.cpp)
-target_link_libraries(gpio_read ${catkin_LIBRARIES} -lwiringPi
+add_executable(gpio_pwm_sub src/gpio_pwm_sub.cpp)
+target_link_libraries(gpio_pwm_sub ${catkin_LIBRARIES} -lwiringPi
 )
 
-add_executable(gpio_pub src/gpio_pub.cpp)
-target_link_libraries(gpio_pub ${catkin_LIBRARIES} -lwiringPi
-)
 
-add_executable(gpio_write src/gpio_write.cpp)
-target_link_libraries(gpio_write ${catkin_LIBRARIES} -lwiringPi
-)
-
-add_executable(gpio_pwm src/gpio_pwm.cpp)
-target_link_libraries(gpio_pwm ${catkin_LIBRARIES} -lwiringPi 	
-)
 
 #############
 ## Install ##

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>gpio_io</name>
+  <name>gpio_publisher</name>
   <version>0.0.0</version>
-  <description>The gpio_io package</description>
+  <description>The gpio_publisher package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
