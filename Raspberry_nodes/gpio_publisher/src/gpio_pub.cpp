@@ -23,7 +23,7 @@ int main (int argc, char **argv)
     {
     	std_msgs::Int32 status;
         int pulse = digitalRead(pin);
-        if(pulse==1){
+        if(pulse==0){
         	status.data = pin_on;
         	pin_status.publish(status);
         	 std::cout<<"Pin READ "<<pin_on<<"\n";
