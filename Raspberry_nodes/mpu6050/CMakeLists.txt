@@ -24,7 +24,7 @@ include_directories(
 )
 
 
-add_executable(imu_node src/read_MPU6050Pi.cpp
+add_executable(imu_node src/mpu_driver.cpp
 src/I2CPi.cpp
 src/math_3d.cpp
 src/MPU6050Pi.cpp
