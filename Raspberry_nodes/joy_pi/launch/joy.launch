@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
  <launch>
 
-
+    <param name = "joy_node/dev"     value = "/dev/input/js0"/>
 
      <!-- Turtlesim Node-->
     <node pkg="turtlesim" type="turtlesim_node" name="sim"/>

@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
 
 	ros::init(argc, argv, "gpio_read_mpu6050");
 	ros::NodeHandle nh;
-	ros::Publisher imu_pub = nh.advertise<sensor_msgs::Imu>("/imu_mpu6050", 10);
+	ros::Publisher imu_pub = nh.advertise<sensor_msgs::Imu>("/mpu_imu", 10);
 
 	// Connect to device with default setting
 	MPU6050Pi mpu;
@@ -39,12 +39,14 @@ int main(int argc, char **argv) {
 		 0.0128,
 	    -0.0007;
 
-	Go<<0.01, 0.01, 0.01;
+	Go<<-0.28589312977099235, 0.8312366412213742, 0.22204580152671755;
+	ros::Rate loop_rate(200);
 
 			// Publish in loop.
-	while (1) {
+	while (ros::ok()) {
+		std::cout<<"status"<<mpu.GetIntStatus()<<std::endl;
 
-		if((mpu.GetIntStatus()>>0)&1){
+		
 			// Get gyroscope data.
 					mpu.GetGyroFloat(&G(0), &G(1), &G(2));
 					// Get accelerometer values.
@@ -54,7 +56,7 @@ int main(int argc, char **argv) {
 					// acceleration calibracion
 					A_cal = Ac * A + Ao;
 
-
+					std::cout<<"accel "<<A_cal(0)<<" "<<A_cal(1)<<" "<<A_cal(1)<<std::endl;
 					sensor_msgs::Imu imu_data;
 					imu_data.header.stamp = ros::Time::now();
 					imu_data.header.frame_id = "world";
@@ -71,7 +73,8 @@ int main(int argc, char **argv) {
 					imu_data.angular_velocity.z = G_cal(2)*deg_to_rad;
 
 					imu_pub.publish(imu_data);
-		}
+		  loop_rate.sleep();
+                               ros::spinOnce();
 
 
 	}

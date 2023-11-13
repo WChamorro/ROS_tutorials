@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
 )
+find_package(Eigen3 REQUIRED)
 
 find_library(wiringpi_libraries names wiringpi)
 
@@ -24,7 +25,7 @@ include_directories(
 )
 
 
-add_executable(imu_node src/mpu_driver.cpp
+add_executable(imu_node src/read_MPU6050Pi.cpp
 src/I2CPi.cpp
 src/math_3d.cpp
 src/MPU6050Pi.cpp

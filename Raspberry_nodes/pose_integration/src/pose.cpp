@@ -9,7 +9,7 @@
 
 
  std::string name;
- Eigen::Vector3d r, r_ant;
+ Eigen::Vector3f r, r_ant;
  Eigen::Quaterniond q, q_exp;
  Eigen::Quaterniond q_ant(1,0,0,0);
  Eigen::Vector3d v , v_ant;
