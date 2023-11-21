@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- required param for the state publisher -->
+  <param name="file_name" textfile="$(find record)/data_saved.txt" /> 
+ <param name="topic_name" textfile="$/dc_motor/velocity" /> 
+
+<!-- 3D model spawner -->
+  <node name="record" pkg="record" type="record" />
+
+
+</launch>
+
