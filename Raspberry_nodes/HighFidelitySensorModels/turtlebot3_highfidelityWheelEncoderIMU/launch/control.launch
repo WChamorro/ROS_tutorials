@@ -1,0 +1,11 @@
+<launch>
+  
+   <node name="control" pkg="turtlebot3_description_poisson" type="pos_control" output="screen">
+
+   <param name="x_setpoint" value="1" />
+   <param name="y_setpoint" value="1" />
+   <param name="kv" value="0.4" />
+   <param name="kw" value="1.2" />
+    </node>
+  
+</launch>

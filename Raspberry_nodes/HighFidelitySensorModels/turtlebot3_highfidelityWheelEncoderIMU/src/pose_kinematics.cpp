@@ -2,7 +2,6 @@
 #include <geometry_msgs/TransformStamped.h>
 #include <geometry_msgs/TwistStamped.h>
 #include <nav_msgs/Odometry.h>
-#include <eigen3/Eigen/Dense>
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2/LinearMath/Quaternion.h>
 #define b  0.16
@@ -22,33 +21,24 @@ double theta_ant = 0;
 
 ros::Time ros_t;
 
-void right_callback(geometry_msgs::TwistStamped::ConstPtr msg){
+
+void wheel_callback(geometry_msgs::TwistStamped::ConstPtr msg){
+	wl = msg->twist.angular.y;
 	wr = msg->twist.angular.z;
 	ros_t = msg->header.stamp;
-	got_wr = true;
-}
+		got_wr = true;
 
-void left_callback(geometry_msgs::TwistStamped::ConstPtr msg){
-	wl = msg->twist.angular.z;
-	ros_t = msg->header.stamp;
-	got_wl = true;
 }
 int main(int argc, char** argv){
   ros::init(argc, argv, "my_tf2_listener");
 
   ros::NodeHandle node;
 
- 
-
-  ros::Subscriber right_sub = node.subscribe("right_wheel",10,right_callback);
-  ros::Subscriber left_sub  = node.subscribe("left_wheel",10,left_callback);
+  ros::Subscriber left_sub  = node.subscribe("wheel_vel",10,wheel_callback);
   ros::Publisher odom = node.advertise<nav_msgs::Odometry>("kinematics_odom",10);
 
-
-
-
   while (node.ok()){
-	 if(got_wl && got_wr){
+	 if(got_wr){
 		 if(t_ant<0){
 			 t = ros_t.toSec();
 			 t_ant = t;
@@ -82,7 +72,6 @@ int main(int argc, char** argv){
 			 pos.header.stamp = ros_t;
 			 pos.pose.pose.position.x = x;
 			 pos.pose.pose.position.y = y;
-
 
 			 tf2::Quaternion q_;
 			 q_.setRPY(0, 0, theta);

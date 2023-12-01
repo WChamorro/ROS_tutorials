@@ -2,10 +2,14 @@
 #include <tf2_ros/transform_listener.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <geometry_msgs/TwistStamped.h>
+#include <gazebo_msgs/LinkStates.h>
 
 #include <eigen3/Eigen/Dense>
-#include <manif/manif.h>
+
 bool singularity = false;
+double w_left,w_right;
+ros::Time T;
+bool got_w=false;
 
 Eigen::Vector3d q_log (double &w, double &x, double &y, double &z){
 
@@ -49,6 +53,13 @@ Eigen::Vector3d q_log (double &w, double &x, double &y, double &z){
 
 }
 
+void gazebo_callback(const gazebo_msgs::LinkStates::ConstPtr msg){
+	w_left=msg->twist[2].angular.y; //left
+	w_right=msg->twist[3].angular.y; //right
+	got_w = true;
+
+}
+
 int main(int argc, char** argv){
   ros::init(argc, argv, "my_tf2_listener");
 
@@ -56,8 +67,8 @@ int main(int argc, char** argv){
 
  
 
-  ros::Publisher right_pub = node.advertise<geometry_msgs::TwistStamped>("/right_wheel", 10);
-  ros::Publisher left_pub  = node.advertise<geometry_msgs::TwistStamped>("/left_wheel", 10);
+  ros::Publisher wheel_pub = node.advertise<geometry_msgs::TwistStamped>("wheel_vel", 10);
+  ros::Subscriber gazebon = node.subscribe("/gazebo/link_states",10,gazebo_callback);
 
   tf2_ros::Buffer tfBuffer;
   tf2_ros::TransformListener tfListener(tfBuffer);
@@ -73,7 +84,7 @@ int main(int argc, char** argv){
   geometry_msgs::TwistStamped wl_ant ;
 
   while (node.ok()){
-    geometry_msgs::TransformStamped left_tf,right_tf;
+   /*geometry_msgs::TransformStamped left_tf,right_tf;
 
     try{
       left_tf = tfBuffer.lookupTransform("base_footprint","wheel_left_link",
@@ -99,75 +110,66 @@ int main(int argc, char** argv){
 
 
     if(t_ant<0){
-    	geometry_msgs::TwistStamped vel_left;
-    	    vel_left.header.stamp = left_tf.header.stamp;
-    	    vel_left.twist.angular.x = 0;
-    	    vel_left.twist.angular.y = 0;
-    	    vel_left.twist.angular.z = 0;
 
-    	    geometry_msgs::TwistStamped vel_right;
-    	    vel_right.header.stamp = left_tf.header.stamp;
-    	    vel_right.twist.angular.x = 0;
-    	    vel_right.twist.angular.y = 0;
-    	    vel_right.twist.angular.z = 0;
+    	geometry_msgs::TwistStamped wheel;
+    	wheel.header.stamp = ros::Time::now();
+    	wheel.twist.angular.x = 0;
+    	wheel.twist.angular.y = 0;
+    	wheel.twist.angular.z = 0;
+    	wheel_pub.publish(wheel);
 
-    	    right_pub.publish(vel_left);
-    	    left_pub.publish(vel_right);
     	    ql_ant = ql;
     	    qr_ant = qr;
-    	    t_ant = left_tf.header.stamp.toSec();
+    	    t_ant = wheel.header.stamp.toSec();
     }else{
-    	dt = left_tf.header.stamp.toSec() - t_ant;
+    	ros::Time t = ros::Time::now();
+    	dt =  t.toSec() - t_ant;
     if(dt>0.01){
 
-    manif::SO3d R2(qr_ant);
+
     manif::SO3d R1(qr);
+    manif::SO3d R2(qr_ant);
     manif::SO3Tangentd wr = R1.minus(R2);
     //wr = wr / dt;
-
-
-
-    geometry_msgs::TwistStamped vel_right;
-    vel_right.header.stamp = right_tf.header.stamp;
-    vel_right.twist.angular.x = 0;
-    vel_right.twist.angular.y = 0;
-    vel_right.twist.angular.z = wr.coeffs().z()/dt;
-    right_pub.publish(vel_right);
-    wr_ant = vel_right;
-    qr_ant = qr;
-
 
     manif::SO3d L1(ql);
     manif::SO3d L2(ql_ant);
     manif::SO3Tangentd wl = L1.minus(L2);
-    //wl = wl / dt;
+        //wl = wl / dt;
 
 
-    geometry_msgs::TwistStamped vel_left;
-    vel_left.header.stamp = left_tf.header.stamp;
-    vel_left.twist.angular.x = 0;
-    vel_left.twist.angular.y = 0;
-    vel_left.twist.angular.z = wl.coeffs().z()/dt;
-    left_pub.publish(vel_left);
+    geometry_msgs::TwistStamped wheel;
+        	wheel.header.stamp = t;
+        	wheel.twist.angular.x = 0;
+        	wheel.twist.angular.y = wr.coeffs().z()/dt;
+        	wheel.twist.angular.z = wl.coeffs().z()/dt;
+        	wheel_pub.publish(wheel);
+
+
+    qr_ant = qr;
     ql_ant = ql;
-    wl_ant = vel_left;
+    t_ant = t.toSec();*/
 
-
-
-
-    t_ant = left_tf.header.stamp.toSec();
 
 
  
 
 
-    }
-    }
+    //}
+    //}
+
+	  if(got_w){
+		    geometry_msgs::TwistStamped wheel;
+		        	wheel.header.stamp = ros::Time::now();
+		        	wheel.twist.angular.x = 0;
+		        	wheel.twist.angular.y = w_left;
+		        	wheel.twist.angular.z = w_right;
+		        	wheel_pub.publish(wheel);
+		        	got_w=false;
+	  }
 
 
-
-
-    rate.sleep();
+    //rate.sleep();
     ros::spinOnce();
   }
   return 0;

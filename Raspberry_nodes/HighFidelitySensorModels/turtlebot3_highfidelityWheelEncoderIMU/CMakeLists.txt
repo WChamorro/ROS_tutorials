@@ -62,7 +62,7 @@ include_directories(
   ${OGRE-Terrain_INCLUDE_DIRS}
   ${OGRE-Paging_INCLUDE_DIRS}
     ${EIGEN_INCLUDE_DIR}
-    ${manif_INCLUDE_DIRS}
+
 )
 
 link_directories(
@@ -115,6 +115,10 @@ target_link_libraries(wheel_velocity ${catkin_LIBRARIES})
 add_executable(pose_kinematics src/pose_kinematics.cpp)
 add_dependencies(pose_kinematics ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(pose_kinematics ${catkin_LIBRARIES})
+
+add_executable(pos_control src/pos_control.cpp)
+add_dependencies(pos_control ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
+target_link_libraries(pos_control ${catkin_LIBRARIES})
 
 ##########
 ## Test ##
