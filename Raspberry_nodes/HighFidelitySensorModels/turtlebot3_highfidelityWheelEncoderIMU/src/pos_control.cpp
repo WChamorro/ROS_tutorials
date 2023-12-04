@@ -22,13 +22,17 @@ bool controlLoop()
 
 
 
-	//control law
-	//double v = vr*cos(et) + kv*ex;
-	//double w = wr + ky*vr*ey + kt*vr*sin(et);
+
 	 double th_g = atan2(ey,ex);
 	 double v = kv*sqrt(ex*ex + ey*ey);
 	 double w = kw*(th_g - x[2]);
 
+	 //accion de control
+	 //aqui se deberia calcular y publicar wr y wl
+	 // wr = (v + w*b/2)/r
+	 // wl = (v - w*b/2)/r
+
+	 //la simulación me permite enviar directamente velocidad lineal y angular
 	 geometry_msgs::Twist cmd_vel;
 	 cmd_vel.linear.x = v;
 	 cmd_vel.angular.z = w;

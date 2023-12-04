@@ -33,8 +33,8 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 
-find_package(Eigen3 REQUIRED)
-find_package(manif REQUIRED)
+
+
 
 include (FindPkgConfig)
 if (PKG_CONFIG_FOUND)
@@ -61,7 +61,7 @@ include_directories(
   ${OGRE_INCLUDE_DIRS}
   ${OGRE-Terrain_INCLUDE_DIRS}
   ${OGRE-Paging_INCLUDE_DIRS}
-    ${EIGEN_INCLUDE_DIR}
+
 
 )
 

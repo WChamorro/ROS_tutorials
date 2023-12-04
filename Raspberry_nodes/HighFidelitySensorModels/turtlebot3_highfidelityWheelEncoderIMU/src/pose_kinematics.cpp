@@ -67,8 +67,8 @@ int main(int argc, char** argv){
 
 
 			 nav_msgs::Odometry pos;
-			 pos.child_frame_id="base_footprint";
-			 pos.header.frame_id="kinematic_pos";
+			 pos.child_frame_id="kinematics_odom";
+			 pos.header.frame_id="base_footprint";
 			 pos.header.stamp = ros_t;
 			 pos.pose.pose.position.x = x;
 			 pos.pose.pose.position.y = y;
@@ -82,7 +82,8 @@ int main(int argc, char** argv){
 			 pos.pose.pose.orientation.w = q_.w();
 
 			 pos.twist.twist.angular.z = w;
-			 pos.twist.twist.linear.x = v;
+			 pos.twist.twist.linear.x = v * cos(theta);
+			 pos.twist.twist.linear.y = v * sin(theta);
 			 odom.publish(pos);
 
 			 got_wr = false;
@@ -93,15 +94,17 @@ int main(int argc, char** argv){
 
 			   transformStamped.header.stamp = ros_t;
 			   transformStamped.header.frame_id = "base_footprint";
-			   transformStamped.child_frame_id = "kinematic_pos";
+			   transformStamped.child_frame_id = "kinematic_frame";
 			   transformStamped.transform.translation.x = x;
 			   transformStamped.transform.translation.y = y;
 			   transformStamped.transform.translation.z = 0.0;
 
-			   transformStamped.transform.rotation.x = q.x();
-			   transformStamped.transform.rotation.y = q.y();
-			   transformStamped.transform.rotation.z = q.z();
-			   transformStamped.transform.rotation.w = q.w();
+
+
+			   transformStamped.transform.rotation.x = q_.x();
+			   transformStamped.transform.rotation.y = q_.y();
+			   transformStamped.transform.rotation.z = q_.z();
+			   transformStamped.transform.rotation.w = q_.w();
 
 			   br.sendTransform(transformStamped);*/
 

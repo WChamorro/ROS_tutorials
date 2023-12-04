@@ -1,45 +1,35 @@
 <?xml version="1.0"?>
 <launch>
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
 
-    <!-- GAZEBO PARAMETERS -->
-    
+<!-- ****************** ROBOT SIMULATION********************************************** -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- GAZEBO PARAMETERS --> 
     <arg name="use_sim_time" value="true"/>
     <arg name="paused" value="false"/>
     <arg name="gui" value="true"/>
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
-
-  </include>
-
-
-  <!-- Load the URDF into the ROS Parameter Server -->
+  </include> 
   <param 
     name="robot_description"	 
     command="$(find xacro)/xacro '$(find turtlebot3_description_poisson)/urdf/turtlebot3_burger.urdf.xacro'" 
   />
-
-
-  <!-- Spawn turtlebot3 into Gazebo -->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
      args="-param robot_description -urdf -model turtlebot3_burger_poisson" />
-
-
   <node name="fake_joint_calibration" pkg="rostopic" type="rostopic" args="pub /calibrated std_msgs/Bool true" />
-
-  <!-- send joint values from gui -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
-
-
-  <!-- use joint positions to update tf -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-  
+ 
+ <!-- ********************************************************************************** --> 
+ 
+ 
+ <!-- estimación de velocidad angular -->
     <node name="wheels" pkg="turtlebot3_description_poisson" type="wheel_velocity" output="screen"/>
     
-     <node name="pos" pkg="turtlebot3_description_poisson" type="pose_kinematics" output="screen"/>
+    <node name="pos" pkg="turtlebot3_description_poisson" type="pose_kinematics" output="screen"/>
 
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
-    <rosparam command="load" file="$(find robot_localization)/params/ekf_template.yaml" />
+    <rosparam command="load" file="$(find robot_localization)/params/ekf_templatev2.yaml" />
   </node>  
   
 
