@@ -1,0 +1,5 @@
+<launch>
+
+    <node pkg="imu_9250" name="imu_9250" type="ROS_9250_node.py" output="screen" required="true"> </node>
+
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+
+    <node pkg="magnetometer" name="magnetometer" type="ROS_magnetometer_node.py" output="screen" required="true"> </node>
+
+</launch>
