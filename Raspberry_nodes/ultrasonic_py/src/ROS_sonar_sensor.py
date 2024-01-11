@@ -25,15 +25,15 @@ class sonar():
         
         
 gpio.setmode(gpio.BCM)
-trig = 24 # 7th
-echo = 25 # 6th
+trig = 2 # 7th
+echo = 3 # 6th
 
 gpio.setup(trig, gpio.OUT)
 gpio.setup(echo, gpio.IN)
 
 sensor=sonar()
 time.sleep(0.5)
-print ('startarting sonar')
+print ('starting sonar')
 try :
     while True :
         gpio.output(trig, False)
@@ -51,7 +51,7 @@ try :
             #print('time out')
             continue
         elif distance > 300 or distance==0:
-            #print('out of range')
+            print('out of range')
             continue
         distance = round(distance, 3)
         #print ('Distance : %f cm'%distance)

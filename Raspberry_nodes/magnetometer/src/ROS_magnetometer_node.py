@@ -31,26 +31,36 @@ def mag_publisher():
         
         #mx,my,mz = AK8963_conv()
 
-        #try:
-        mx,my,mz = AK8963_conv() # read and convert AK8963 magnetometer data
+        try:
+            mx,my,mz = AK8963_conv() # read and convert AK8963 magnetometer data
 
          
             #apply calibration
-        mx_cal = mx - cal_coefs[0]
-        my_cal = my - cal_coefs[1]
-        mz_cal = mz - cal_coefs[2]
+            mx_cal = mx - cal_coefs[0]
+            my_cal = my - cal_coefs[1]
+            mz_cal = mz - cal_coefs[2]
         
         
-        if got_first_ref==False:  
-            theta_ref = np.arctan2(my_cal,mx_cal)
-            theta_no_cal_ref= np.arctan2(my,mx)
-            got_first_ref=True
-        
-        theta = np.arctan2(my_cal,mx_cal) - theta_ref
+            if got_first_ref==False:  
+                theta_ref = np.arctan2(my_cal,mx_cal)
+                theta_no_cal_ref= np.arctan2(my,mx)
+                got_first_ref=True
+            if abs(mx_cal) <=1e-5:
+            
+                if my_cal > 0:
+                    theta = np.pi / 2
+                elif my_cal < 0:
+                    theta = -np.pi / 2
+                else:
+            # Handle the case where both x and y are zero, or any other special case
+                    theta = 0;
+            else:
+                theta = np.arctan2(my_cal,mx_cal) - theta_ref
         #print(theta)
 
 
-        #except:
+        except:
+            pass
          #   continue 
         float_msg = Float32()
         float_msg.data = theta

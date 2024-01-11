@@ -1,0 +1,5 @@
+<launch>
+
+    <node pkg="ultrasonic_py" name="ultrasonic_py" type="ROS_sonar_sensor.py" output="screen" required="true"> </node>
+
+</launch>
