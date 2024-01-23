@@ -55,7 +55,7 @@ int main(int argc, char** argv){
 			 v = (vr + vl)/2;
 			 w = (vr - vl)/b;
 
-			 theta = theta_ant + w*dt;
+			 theta = theta_ant + w*dt; // aqui poner theta del magnetometro en lugar de la operacion matematica
 			 x = x_ant + v * cos(theta)*dt;
 			 y = y_ant + v * sin(theta)*dt;
 
