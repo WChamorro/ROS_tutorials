@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- required param for the state publisher -->
+  <param name="robot_description" textfile="$(find brazo_4dof_udla)/urdf/brazo_description.xacro" /> 
+
+<!-- automatic tf publisher from urdf file -->
+ <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+<!-- 3D model spawner -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+<!--<node name="mastering_robot_description" pkg="mastering_robot_description" type="robot_description" />-->
+ <node name="rviz" pkg="rviz" type="rviz" args="-d $(find brazo_4dof_udla)/arm.rviz" /> 
+</launch>
+

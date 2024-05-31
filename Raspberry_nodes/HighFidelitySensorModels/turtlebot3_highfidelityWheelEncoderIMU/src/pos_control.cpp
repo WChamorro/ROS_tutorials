@@ -69,12 +69,17 @@ bool controlLoop()
 	 //aqui se deberia calcular y publicar wr y wl
 	 // wr = (v + w*b/2)/r
 	 // wl = (v - w*b/2)/r
-	  //float64 WR
+	 
+	 // if(wr >= 20){
+	 //wr=20
+	 //}
+	  //float64 W2
 	  // WR.data = wr
-	 //publish(/left/state)
-	 //publish(right/state)
+	 //publish(/left/setpoint)
+	 //publish(right/setpint)
 
 	 //la simulación me permite enviar directamente velocidad lineal y angular
+	 //borrar
 	 geometry_msgs::Twist cmd_vel;
 	 cmd_vel.linear.x = v;
 	 cmd_vel.angular.z = w;
