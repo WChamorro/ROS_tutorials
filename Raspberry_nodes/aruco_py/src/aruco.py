@@ -23,8 +23,8 @@ class ArucoDetector:
         self.camera_matrix = np.array(camera_info.K).reshape((3, 3))
         self.dist_coeffs = np.array(camera_info.D)
         print("Got camera info")
-    
-    # Image callback*************************************************************    
+	
+    # Image callback*************************************************************	
     def image_callback(self, data):
         if self.camera_matrix is None or self.dist_coeffs is None:
             rospy.logwarn("Waiting for camera_info...")
@@ -36,14 +36,14 @@ class ArucoDetector:
         except CvBridgeError as e:
             rospy.logerr(f"CV Bridge Error: {e}")
             return
-    
-    # Marker detection<<<<<<<<
+	
+	# Marker detection<<<<<<<<
         corners, ids, rejected = aruco.detectMarkers(gray_image, self.aruco_dict, parameters=self.parameters)
 
         if ids is not None:
             aruco.drawDetectedMarkers(gray_image, corners, ids)
 
-            # Estimacion del pose del marker con respecto a la camara<<<< Devuelve un vector con traslacion y orientacion como angulos de           euler de todos los markers
+            # Estimacion del pose del marker con respecto a la camara<<<< Devuelve un vector con traslacion y orientacion como angulos de 	      euler de todos los markers
             rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, self.marker_length, self.camera_matrix, self.dist_coeffs)
 
             # Draw axis for each marker
