@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+
+<launch>
+   
+   <node name="joint_move" pkg="servo_simulation" type="joint_pub.py" output="screen"/>
+   
+</launch>
