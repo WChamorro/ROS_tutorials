@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+
+<launch>
+   
+   <node name="inverse_kinematics" pkg="inverse_kinematics" type="inverse_kinematics.py" output="screen"/>
+   
+</launch>

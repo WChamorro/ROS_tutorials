@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+
+<launch>
+   
+   <include file="$(find servo_simulation)/launch/robot.launch"/>
+   
+   <include file="$(find aruco_py)/launch/aruco_tf.launch"/>
+   
+   <include file="$(find servo_simulation)/launch/servo_sim.launch"/>
+   
+   <include file="$(find servo_simulation)/launch/joint_move.launch"/>
+   
+   <node name="inverse_kinematics" pkg="inverse_kinematics" type="inverse_kinematics.py" output="screen"/>
+   
+</launch>
